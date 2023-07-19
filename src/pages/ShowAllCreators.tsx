@@ -1,6 +1,11 @@
+import Hero from "../components/Hero"
+
 function ShowAllCreators() {
   return (
-    <div>ShowAllCreators</div>
+    <div className="flex flex-col">
+        <Hero />
+        all creators appear here
+    </div>
   )
 }
 
