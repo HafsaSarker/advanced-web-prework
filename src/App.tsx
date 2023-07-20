@@ -8,7 +8,7 @@ import ViewOneCreator from './pages/ViewOneCreator'
 
 function App() {
   return (
-    <div>
+    <div className='App'>
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route index element={<ShowAllCreators/>}/>
