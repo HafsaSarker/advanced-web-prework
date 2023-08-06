@@ -1,17 +1,9 @@
 import { z, ZodType } from "zod"
 import { SubmitHandler } from "react-hook-form"
 import { supabase } from "../Client";
+import { creatorType } from "./interfaces/creatorInterface";
 
-export type FormData = {
-    name: string;
-    imgUrl: string;
-    description: string;
-    ytLink?: string | null | undefined;
-    twLink?: string | null | undefined;
-    igLink?: string | null | undefined;
-}
-
-export const createSchema:ZodType<FormData> = z.object({
+export const createSchema:ZodType<creatorType> = z.object({
     name: z.string().min(2, {message: 'Please enter a name'}).max(30),
     imgUrl: z.string().url({message: 'Please provide a valid link'}),
     description: z.string().min(2, {message: 'Description required'}),
@@ -24,16 +16,16 @@ export const createSchema:ZodType<FormData> = z.object({
     path: ["ytLink", "igLink", "twLink"]
 })
 
-export const submitNewCreator: SubmitHandler<FormData> = async(data) => {
+export const submitNewCreator: SubmitHandler<creatorType> = async(data) => {
     await supabase
         .from('creators')
         .insert({
             name: data.name,
             description: data.description,
-            imageURL: data.imgUrl,
+            imgUrl: data.imgUrl,
             ytLink: data.ytLink,
             twLink: data.twLink,
-            instaLink: data.igLink
+            igLink: data.igLink
         })
         .select()
 }

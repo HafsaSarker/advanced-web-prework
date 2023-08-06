@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FormData, createSchema, submitNewCreator } from "../utils/createForm"
+import { createSchema, submitNewCreator } from "../utils/createForm"
+import { creatorType } from "../utils/interfaces/creatorInterface"
 import { BsInstagram, BsTwitter, BsYoutube } from 'react-icons/bs'
 
 function AddCreator() {
   const win: Window = window;
 
-  const { register, handleSubmit, formState:{ errors, isSubmitting, isSubmitSuccessful } } = useForm<FormData>({resolver: zodResolver(createSchema)})
+  const { register, handleSubmit, formState:{ errors, isSubmitting, isSubmitSuccessful } } = useForm<creatorType>({resolver: zodResolver(createSchema)})
 
   if(isSubmitSuccessful){
     win.location = "/";
