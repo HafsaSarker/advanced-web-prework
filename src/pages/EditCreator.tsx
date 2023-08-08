@@ -50,6 +50,16 @@ function EditCreator() {
     ) 
   }
 
+  const deletePost = async () => {
+    await supabase
+      .from('creators')
+      .delete()
+      .eq('id', id);
+
+    alert('Post Deleted')
+    navigate('/')
+  }
+
   return (
     <div className="flex flex-col place-items-center w-full bg-gradient-to-b from-indigo-300 to-red-400 py-10 text-white font-medium">
 
@@ -129,13 +139,22 @@ function EditCreator() {
               disabled={isSubmitting}
             />
           </label>
+        <div className="flex flex-row gap-6 w-full">
+          <button 
+            className="bg-indigo-500 py-2 w-full rounded-md" 
+            type="submit" 
+            disabled={isSubmitting}>
+              Edit
+          </button>
 
-        <button 
-          className="bg-indigo-500 py-2 w-full rounded-md" 
-          type="submit" 
-          disabled={isSubmitting}>
-            Create
-        </button>
+          <button 
+            className="bg-indigo-500 py-2 w-full rounded-md" 
+            type="button"
+            onClick={deletePost} 
+            disabled={isSubmitting}>
+              Delete
+          </button>
+        </div>
       </form>
     </div>
     
