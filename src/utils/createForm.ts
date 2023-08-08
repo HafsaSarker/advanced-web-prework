@@ -1,6 +1,4 @@
 import { z, ZodType } from "zod"
-import { SubmitHandler } from "react-hook-form"
-import { supabase } from "../Client";
 import { creatorType } from "./interfaces/creatorInterface";
 
 export const createSchema:ZodType<creatorType> = z.object({
@@ -16,16 +14,4 @@ export const createSchema:ZodType<creatorType> = z.object({
     path: ["ytLink", "igLink", "twLink"]
 })
 
-export const submitNewCreator: SubmitHandler<creatorType> = async(data) => {
-    await supabase
-        .from('creators')
-        .insert({
-            name: data.name,
-            description: data.description,
-            imgUrl: data.imgUrl,
-            ytLink: data.ytLink,
-            twLink: data.twLink,
-            igLink: data.igLink
-        })
-        .select()
-}
+

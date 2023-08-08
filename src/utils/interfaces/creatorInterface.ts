@@ -1,4 +1,5 @@
 export interface creatorType {
+    created_at?: string;
     id?: number;
     name: string;
     imgUrl: string;

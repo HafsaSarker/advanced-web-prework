@@ -1,16 +1,33 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { createSchema, submitNewCreator } from "../utils/createForm"
+import { createSchema } from "../utils/createForm"
+import { SubmitHandler } from "react-hook-form"
+import { supabase } from "../Client";
 import { creatorType } from "../utils/interfaces/creatorInterface"
 import { BsInstagram, BsTwitter, BsYoutube } from 'react-icons/bs'
+import { useNavigate } from "react-router-dom";
 
 function AddCreator() {
-  const win: Window = window;
+  const navigate = useNavigate();
 
-  const { register, handleSubmit, formState:{ errors, isSubmitting, isSubmitSuccessful } } = useForm<creatorType>({resolver: zodResolver(createSchema)})
+  const { register, handleSubmit, formState:{ errors, isSubmitting } } = useForm<creatorType>({resolver: zodResolver(createSchema)})
 
-  if(isSubmitSuccessful){
-    win.location = "/";
+  const submitNewCreator: SubmitHandler<creatorType> = async(data) => {
+      await supabase
+          .from('creators')
+          .insert({
+              name: data.name,
+              description: data.description,
+              imgUrl: data.imgUrl,
+              ytLink: data.ytLink,
+              twLink: data.twLink,
+              igLink: data.igLink
+          })
+          .select()
+          
+      .then(() => 
+          navigate('/')
+      )      
   }
 
   return (
@@ -64,7 +81,7 @@ function AddCreator() {
         
         <label>
           <span className="icon"><BsYoutube/>YouTube</span>  
-          <span className="sub_label">The creator's YouTube handle (without the @)</span>
+          <span className="sub_label">The creator's YouTube Link</span>
             <input 
               type="text"
               {...register("ytLink")}
@@ -74,7 +91,7 @@ function AddCreator() {
 
           <label>
           <span className="icon"><BsTwitter/>Twitter</span>  
-          <span className="sub_label">The creator's Twitter handle (without the @)</span>
+          <span className="sub_label">The creator's Twitter Link</span>
             <input 
               type="text"
               {...register("twLink")}
@@ -84,7 +101,7 @@ function AddCreator() {
 
           <label>
           <span className="icon"><BsInstagram/>Instagram</span>  
-          <span className="sub_label">The creator's Instagram handle (without the @)</span>
+          <span className="sub_label">The creator's Instagram Link</span>
             <input 
               type="text"
               {...register("igLink")}
